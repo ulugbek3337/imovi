@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinoPrime - Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">Kino<span>Prime</span> <small class="admin-badge">Admin</small></div>
+        <div class="nav-actions">
+            <div id="backendStatus" class="backend-badge checking" title="Server holati">⚡ Tekshirilmoqda...</div>
+            <a href="index.html" class="nav-btn">🏠 Kinoteatrga Qaytish</a>
+            <button id="logoutBtn" class="logout-btn" style="display: none;">🚪 Chiqish</button>
+        </div>
+    </header>
+
+    <main class="container admin-container">
+        <!-- Parol kiritish bloki (Kirish) -->
+        <div class="upload-card auth-card" id="adminAuthSection">
+            <h2>🔒 Admin Panelga Kirish</h2>
+            <p class="auth-hint">Standart maxfiy parol: <code>admin123</code></p>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminPassword">Maxfiy parol:</label>
+                    <input type="password" id="adminPassword" placeholder="Parolni kiriting..." required autocomplete="current-password">
+                </div>
+                <button type="submit" class="submit-btn">Kirish</button>
+            </form>
+        </div>
+
+        <!-- Asosiy Admin Dashboardi -->
+        <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+            <!-- Yangi kino qo'shish kartasi -->
+            <div class="upload-card">
+                <h2>🎬 Yangi Kino / Film Joylash</h2>
+
+                <!-- Yuklash usulini tanlash (Tabs) -->
+                <div class="upload-tabs">
+                    <button type="button" class="tab-btn active" id="tabUrlBtn">🔗 Havola (URL) orqali</button>
+                    <button type="button" class="tab-btn" id="tabFileBtn">📁 Fayl yuklash (Lokal)</button>
+                </div>
+
+                <form id="uploadForm">
+                    <input type="hidden" id="uploadMode" value="url">
+
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="videoTitle">Kino nomi:</label>
+                            <input type="text" id="videoTitle" placeholder="Masalan: Qasoskorlar: Intiho" required>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label for="videoGenre">Janri:</label>
+                            <select id="videoGenre" required>
+                                <option value="Jangari">Jangari</option>
+                                <option value="Komediya">Komediya</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Fantastika">Fantastika</option>
+                                <option value="Qo'rqinchli">Qo'rqinchli</option>
+                                <option value="Sarguzasht">Sarguzasht</option>
+                                <option value="Multfilm">Multfilm</option>
+                                <option value="Melodrama">Melodrama</option>
+                                <option value="Detektiv">Detektiv</option>
+                                <option value="Tarixiy">Tarixiy</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="videoCountry">Mamlakat:</label>
+                            <select id="videoCountry" required>
+                                <option value="AQSH">AQSH</option>
+                                <option value="O'zbekiston">O'zbekiston</option>
+                                <option value="Janubiy Koreya">Janubiy Koreya</option>
+                                <option value="Turkiya">Turkiya</option>
+                                <option value="Buyuk Britaniya">Buyuk Britaniya</option>
+                                <option value="Rossiya">Rossiya</option>
+                                <option value="Fransiya">Fransiya</option>
+                                <option value="Hindiston">Hindiston</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label for="videoYear">Chiqarilgan yili:</label>
+                            <input type="number" id="videoYear" min="1950" max="2030" value="2024" required>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label for="videoLanguage">Ovoz / Til:</label>
+                            <select id="videoLanguage" required>
+                                <option value="O'zbekcha">O'zbekcha (Tarjima)</option>
+                                <option value="Ruscha">Ruscha</option>
+                                <option value="Inglizcha">Inglizcha (Original)</option>
+                                <option value="Subtitr">O'zbekcha Subtitr</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="videoRating">IMDb Reytingi (masalan 8.4):</label>
+                            <input type="number" id="videoRating" step="0.1" min="1.0" max="10.0" value="8.0" required>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label for="videoQuality">Video sifati:</label>
+                            <select id="videoQuality" required>
+                                <option value="4K Ultra HD">4K Ultra HD</option>
+                                <option value="Full HD 1080p" selected>Full HD 1080p</option>
+                                <option value="HD 720p">HD 720p</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label for="videoDuration">Davomiyligi (daqiqa / soat):</label>
+                            <input type="text" id="videoDuration" placeholder="Masalan: 124 daqiqa" value="115 daqiqa" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="videoDescription">Kino haqida qisqacha tavsif (Mazmuni):</label>
+                        <textarea id="videoDescription" rows="3" placeholder="Kino syujeti va mazmuni haqida qisqacha ma'lumot..." required></textarea>
+                    </div>
+
+                    <!-- URL orqali maydonlar -->
+                    <div id="urlFields">
+                        <div class="form-group">
+                            <label for="videoUrlInput">Video havola manzili (MP4 yoki to'g'ridan-to'g'ri URL):</label>
+                            <input type="url" id="videoUrlInput" placeholder="https://misol.uz/kino.mp4" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="posterUrlInput">Muqova rasmi (Poster URL - ixtiyoriy):</label>
+                            <input type="url" id="posterUrlInput" placeholder="https://misol.uz/poster.jpg">
+                        </div>
+                    </div>
+
+                    <!-- Fayl orqali maydonlar -->
+                    <div id="fileFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="videoFile">Video faylni tanlang (MP4, WebM):</label>
+                            <input type="file" id="videoFile" accept="video/mp4,video/webm,video/*">
+                            <small class="field-hint">Katta video fayllar brauzerning IndexedDB xotirasida xavfsiz saqlanadi.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="posterFile">Poster rasmi (Muqova):</label>
+                            <input type="file" id="posterFile" accept="image/*">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="uploadSubmitBtn">📤 Kinoni Kinoteatrga Joylash</button>
+                </form>
+            </div>
+
+            <!-- Mavjud kinolarni boshqarish ro'yxati -->
+            <div class="manage-card">
+                <div class="manage-header">
+                    <h2>Mavjud Kinolar Boshqaruvi</h2>
+                    <span id="adminVideoCount" class="badge">0 ta kino</span>
+                </div>
+                <div class="admin-video-list" id="adminVideoList">
+                    <!-- Kinolar ro'yxati JS orqali chiqadi -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- KINONI TAHRIRLASH MODALI (EDIT MODAL) -->
+    <div class="modal-overlay" id="editModal" style="display: none;">
+        <div class="modal-dialog modal-edit-dialog">
+            <button class="modal-close-btn" id="editModalCloseBtn">&times;</button>
+            <div class="edit-modal-content">
+                <h2>✏️ Kinoni Tahrirlash</h2>
+                <form id="editForm">
+                    <input type="hidden" id="editMovieId">
+                    <input type="hidden" id="editUploadMode" value="url">
+
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="editVideoTitle">Kino nomi:</label>
+                            <input type="text" id="editVideoTitle" required>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="editVideoGenre">Janri:</label>
+                            <select id="editVideoGenre" required>
+                                <option value="Jangari">Jangari</option>
+                                <option value="Komediya">Komediya</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Fantastika">Fantastika</option>
+                                <option value="Qo'rqinchli">Qo'rqinchli</option>
+                                <option value="Sarguzasht">Sarguzasht</option>
+                                <option value="Multfilm">Multfilm</option>
+                                <option value="Melodrama">Melodrama</option>
+                                <option value="Detektiv">Detektiv</option>
+                                <option value="Tarixiy">Tarixiy</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="editVideoCountry">Mamlakat:</label>
+                            <select id="editVideoCountry" required>
+                                <option value="AQSH">AQSH</option>
+                                <option value="O'zbekiston">O'zbekiston</option>
+                                <option value="Janubiy Koreya">Janubiy Koreya</option>
+                                <option value="Turkiya">Turkiya</option>
+                                <option value="Buyuk Britaniya">Buyuk Britaniya</option>
+                                <option value="Rossiya">Rossiya</option>
+                                <option value="Fransiya">Fransiya</option>
+                                <option value="Hindiston">Hindiston</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label for="editVideoYear">Yili:</label>
+                            <input type="number" id="editVideoYear" min="1950" max="2030" required>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label for="editVideoLanguage">Ovoz / Til:</label>
+                            <select id="editVideoLanguage" required>
+                                <option value="O'zbekcha">O'zbekcha (Tarjima)</option>
+                                <option value="Ruscha">Ruscha</option>
+                                <option value="Inglizcha">Inglizcha (Original)</option>
+                                <option value="Subtitr">O'zbekcha Subtitr</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="editVideoRating">IMDb Reytingi:</label>
+                            <input type="number" id="editVideoRating" step="0.1" min="1.0" max="10.0" required>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label for="editVideoQuality">Video sifati:</label>
+                            <select id="editVideoQuality" required>
+                                <option value="4K Ultra HD">4K Ultra HD</option>
+                                <option value="Full HD 1080p">Full HD 1080p</option>
+                                <option value="HD 720p">HD 720p</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group flex-1">
+                            <label for="editVideoDuration">Davomiyligi:</label>
+                            <input type="text" id="editVideoDuration" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editVideoDescription">Tavsifi (Mazmuni):</label>
+                        <textarea id="editVideoDescription" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editVideoUrl">Video havola (URL):</label>
+                        <input type="url" id="editVideoUrl">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editPosterUrl">Poster havola (URL):</label>
+                        <input type="url" id="editPosterUrl">
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="editSubmitBtn">💾 O'zgarishlarni Saqlash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bildirishnomalar uchun konteyner -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

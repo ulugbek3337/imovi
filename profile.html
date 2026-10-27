@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinoPrime - Foydalanuvchi Kabineti</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">Kino<span>Prime</span> <small class="user-badge">Kabinet</small></a>
+        </div>
+        <div class="nav-right">
+            <div id="backendStatus" class="backend-badge checking" title="Server holati">⚡ Tekshirilmoqda...</div>
+            <a href="index.html" class="nav-btn">🏠 Kinoteatrga Qaytish</a>
+        </div>
+    </header>
+
+    <main class="container profile-page-container">
+
+        <!-- ================= 1. KIRISH VA RO'YXATDAN O'TISH QISMI (MEHMONLAR UCHUN) ================= -->
+        <div class="auth-box-card" id="authSection" style="display: none;">
+            <div class="auth-tabs">
+                <button type="button" class="auth-tab-btn active" id="tabLoginBtn">🔑 Tizimga Kirish</button>
+                <button type="button" class="auth-tab-btn" id="tabRegisterBtn">📝 Ro'yxatdan O'tish</button>
+            </div>
+
+            <!-- Kirish Formasi -->
+            <form id="userLoginForm" class="auth-form">
+                <h2>Akkauntga Kirish</h2>
+                <p class="auth-subtitle">Sevimlilar, tomosha tarixi va izohlar uchun tizimga kiring.</p>
+
+                <div class="form-group">
+                    <label for="loginEmail">Email manzilingiz:</label>
+                    <input type="email" id="loginEmail" placeholder="Masalan: foydalanuvchi@gmail.com" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Maxfiy parol:</label>
+                    <input type="password" id="loginPassword" placeholder="Parolni kiriting..." required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="submit-btn" id="loginSubmitBtn">Kirish</button>
+            </form>
+
+            <!-- Ro'yxatdan o'tish Formasi -->
+            <form id="userRegisterForm" class="auth-form" style="display: none;">
+                <h2>Yangi Akkaunt Ochish</h2>
+                <p class="auth-subtitle">Bir necha soniyada bepul hisob yarating.</p>
+
+                <div class="form-group">
+                    <label for="regName">Ismingiz yoki Taxallusingiz:</label>
+                    <input type="text" id="regName" placeholder="Masalan: Sardor Aliyev" required autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="regEmail">Email manzilingiz:</label>
+                    <input type="email" id="regEmail" placeholder="nomingiz@mail.uz" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="regPassword">Parol (kamida 6 belgi):</label>
+                    <input type="password" id="regPassword" minlength="6" placeholder="Yangi parol..." required autocomplete="new-password">
+                </div>
+
+                <button type="submit" class="submit-btn" id="regSubmitBtn">Ro'yxatdan O'tish</button>
+            </form>
+        </div>
+
+        <!-- ================= 2. FOYDALANUVCHI KABINETI (TIZIMGA KIRGANLAR UCHUN) ================= -->
+        <div class="user-cabinet-card" id="cabinetSection" style="display: none;">
+            
+            <!-- Profil Banneri -->
+            <div class="profile-header-banner">
+                <div class="profile-avatar-wrap">
+                    <img id="userProfileAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=User" alt="Avatar" class="profile-avatar">
+                </div>
+                <div class="profile-main-info">
+                    <h1 id="userProfileName">Foydalanuvchi Ismi</h1>
+                    <p id="userProfileEmail" class="profile-email">email@misol.uz</p>
+                    <div class="profile-meta-tags">
+                        <span class="user-role-badge" id="userProfileRole">👤 Tomoshabin</span>
+                        <span class="profile-join-date" id="userProfileDate">📅 A'zo bo'lgan: Bugun</span>
+                    </div>
+                </div>
+                <div class="profile-header-actions">
+                    <button type="button" class="logout-btn" id="userLogoutBtn">🚪 Akkauntdan Chiqish</button>
+                </div>
+            </div>
+
+            <!-- Kabinet Tablari -->
+            <div class="cabinet-tabs">
+                <button type="button" class="cab-tab-btn active" data-tab="tabProfile">👤 Ma'lumotlarni Tahrirlash</button>
+                <button type="button" class="cab-tab-btn" data-tab="tabFavorites">❤️ Sevimlilarim (<span id="userFavCount">0</span>)</button>
+                <button type="button" class="cab-tab-btn" data-tab="tabHistory">🕒 Tomosha Tarixi (<span id="userHistoryCount">0</span>)</button>
+            </div>
+
+            <!-- Tab 1: Profil Tahrirlash Formasi -->
+            <div class="cabinet-tab-content active" id="tabProfile">
+                <div class="profile-edit-box">
+                    <h3>Profil Sozlamalari</h3>
+                    <form id="updateProfileForm">
+                        <div class="form-row">
+                            <div class="form-group flex-2">
+                                <label for="editProfileName">Ismingiz:</label>
+                                <input type="text" id="editProfileName" required>
+                            </div>
+                            <div class="form-group flex-1">
+                                <label for="editProfileAvatar">Avatar rasmi (URL):</label>
+                                <input type="url" id="editProfileAvatar" placeholder="https://misol.uz/rasm.jpg">
+                            </div>
+                        </div>
+
+                        <div class="password-change-box">
+                            <h4>Parolni Yangilash (Ixtiyoriy)</h4>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="oldPasswordInput">Eski parolingiz:</label>
+                                    <input type="password" id="oldPasswordInput" placeholder="Amaldagi parol...">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="newPasswordInput">Yangi parol (kamida 6 ta belgi):</label>
+                                    <input type="password" id="newPasswordInput" minlength="6" placeholder="Yangi parol...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="saveProfileBtn">💾 O'zgarishlarni Saqlash</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tab 2: Saqlangan Sevimlilar -->
+            <div class="cabinet-tab-content" id="tabFavorites" style="display: none;">
+                <div class="section-header">
+                    <h3>❤️ Saqlangan Sevimli Kinolar</h3>
+                    <span id="cabinetFavCountBadge" class="video-count">0 ta kino</span>
+                </div>
+                <div class="movie-grid" id="cabinetFavGrid">
+                    <!-- Sevimli kinolar dinamik chiqadi -->
+                </div>
+            </div>
+
+            <!-- Tab 3: Ko'rishlar Tarixi -->
+            <div class="cabinet-tab-content" id="tabHistory" style="display: none;">
+                <div class="section-header">
+                    <h3>🕒 Oxirgi Ko'rilgan Kinolar</h3>
+                    <button type="button" id="clearHistoryBtn" class="reset-filters-btn">🗑️ Tarixni Tozalash</button>
+                </div>
+                <div class="movie-grid" id="cabinetHistoryGrid">
+                    <!-- Ko'rilgan kinolar dinamik chiqadi -->
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- KINO TOMOSHA QILISH MODAL OYNASI (Universal Cinema Player) -->
+    <div class="modal-overlay" id="watchModal" style="display: none;">
+        <div class="modal-dialog">
+            <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+            <div class="player-container" id="playerContainer">
+                <video id="modalVideoPlayer" controls playsinline>
+                    Brauzeringiz ushbu videoni qo'llab-quvvatlamaydi.
+                </video>
+                <iframe id="modalIframePlayer" style="display: none;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="modal-movie-info">
+                <div class="modal-header-meta">
+                    <div class="modal-badges">
+                        <span class="rating-badge" id="modalRating">⭐ 8.5</span>
+                        <span class="quality-tag" id="modalQuality">4K UHD</span>
+                        <span class="lang-tag" id="modalLanguage">O'zbekcha</span>
+                        <span class="badge" id="modalGenre">Jangari</span>
+                        <span class="views-tag" id="modalViewsTag">👁️ 0 ko'rildi</span>
+                    </div>
+                    <div class="modal-action-btns">
+                        <button type="button" class="fav-toggle-btn" id="modalFavBtn">❤️ Sevimlilarga</button>
+                        <a href="#" download id="modalDownloadBtn" class="download-btn">📥 Yuklab Olish</a>
+                    </div>
+                </div>
+                <h2 class="modal-title" id="modalTitle">Kino Nomi</h2>
+                <div class="modal-quick-stats">
+                    <span>📅 Yili: <strong id="modalYear">2024</strong></span>
+                    <span>🌍 Davlati: <strong id="modalCountry">AQSH</strong></span>
+                    <span>⏱️ Davomiyligi: <strong id="modalDuration">120 daqiqa</strong></span>
+                    <span>🎭 Janr: <strong id="modalGenreFull">Jangari</strong></span>
+                    <span>👁️ Ko'rishlar: <strong id="modalViews">0</strong></span>
+                </div>
+                <div class="modal-description-box">
+                    <h4>Kino Haqida Qisqacha:</h4>
+                    <p id="modalDescription">Kino tavsifi...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bildirishnomalar uchun konteyner -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

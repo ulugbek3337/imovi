@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinoPrime - Online Kinoteatr va Film Portali</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">Kino<span>Prime</span></a>
+            <nav class="nav-menu">
+                <a href="#catalog" class="nav-link active" id="navAllMovies">Barcha Kinolar</a>
+                <a href="#catalog" class="nav-link" id="navTopRated">Top Reyting ⭐</a>
+                <a href="#catalog" class="nav-link" id="navNewPremiers">Premyeralar 🔥</a>
+                <a href="#catalog" class="nav-link" id="navMostViewed">Ko'p Ko'rilganlar 👁️</a>
+                <a href="#catalog" class="nav-link" id="navFavorites">Sevimlilar ❤️ <span id="favCountBadge" class="fav-badge">0</span></a>
+            </nav>
+        </div>
+        <div class="nav-right">
+            <div id="backendStatus" class="backend-badge checking" title="Server holati">⚡ Tekshirilmoqda...</div>
+            <a href="profile.html" class="user-cabinet-link" id="navUserCabinetBtn">👤 Kirish / Kabinet</a>
+            <a href="admin.html" class="admin-link">🔒 Admin Panel</a>
+        </div>
+    </header>
+
+    <!-- Katta Premyera Bannere (Hero Section) -->
+    <section class="hero-banner" id="heroBanner">
+        <div class="hero-backdrop" id="heroBackdrop"></div>
+        <div class="hero-content">
+            <span class="hero-badge">🔥 HAFTANING ENG YAXSHI PREMYERASI</span>
+            <h1 class="hero-title" id="heroTitle">Qasoskorlar: Intiho</h1>
+            <div class="hero-meta">
+                <span class="rating-badge" id="heroRating">⭐ 8.9 IMDb</span>
+                <span id="heroYear">2024</span>
+                <span id="heroCountry">AQSH</span>
+                <span id="heroGenre">Jangari / Fantastika</span>
+                <span id="heroLang" class="lang-tag">O'zbekcha Tarjima</span>
+                <span id="heroQuality" class="quality-tag">4K Ultra HD</span>
+            </div>
+            <p class="hero-description" id="heroDesc">
+                Koinotni qutqarish uchun barcha qahramonlar birlashadi. Ta'sirli sarguzashtlar, aqlbovar qilmas janglar va unutilmas kino tajribasi.
+            </p>
+            <div class="hero-actions">
+                <button class="btn-primary" id="heroWatchBtn">▶️ Tomosha Qilish</button>
+                <a href="#catalog" class="btn-secondary">📋 Barcha Kinolar</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Asosiy Qism: Filtrlar va Kinolar Katalogi -->
+    <main class="container" id="catalog">
+
+        <!-- Kengaytirilgan Kino Qidiruv va Filtr Paneli -->
+        <section class="filter-panel">
+            <div class="filter-header">
+                <h3>🎬 Kinolarni saralash va qidirish</h3>
+                <button type="button" id="resetFiltersBtn" class="reset-filters-btn">🔄 Filtrlarni Tozalash</button>
+            </div>
+
+            <div class="filter-grid">
+                <!-- 1. Qidiruv nomi -->
+                <div class="filter-item filter-search">
+                    <label for="searchInput">Kino nomi bo'yicha:</label>
+                    <div class="search-input-wrap">
+                        <input type="text" id="searchInput" placeholder="Kino nomini yozing...">
+                        <button id="clearSearchBtn" class="clear-input-btn" style="display: none;">&times;</button>
+                    </div>
+                </div>
+
+                <!-- 2. Janr -->
+                <div class="filter-item">
+                    <label for="filterGenre">Janri:</label>
+                    <select id="filterGenre">
+                        <option value="all">Barcha Janrlar</option>
+                        <option value="Jangari">Jangari</option>
+                        <option value="Komediya">Komediya</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Fantastika">Fantastika</option>
+                        <option value="Qo'rqinchli">Qo'rqinchli</option>
+                        <option value="Sarguzasht">Sarguzasht</option>
+                        <option value="Multfilm">Multfilm</option>
+                        <option value="Melodrama">Melodrama</option>
+                        <option value="Detektiv">Detektiv</option>
+                        <option value="Tarixiy">Tarixiy</option>
+                    </select>
+                </div>
+
+                <!-- 3. Mamlakat -->
+                <div class="filter-item">
+                    <label for="filterCountry">Mamlakat:</label>
+                    <select id="filterCountry">
+                        <option value="all">Barcha Mamlakatlar</option>
+                        <option value="AQSH">AQSH</option>
+                        <option value="O'zbekiston">O'zbekiston</option>
+                        <option value="Janubiy Koreya">Janubiy Koreya</option>
+                        <option value="Turkiya">Turkiya</option>
+                        <option value="Buyuk Britaniya">Buyuk Britaniya</option>
+                        <option value="Rossiya">Rossiya</option>
+                        <option value="Fransiya">Fransiya</option>
+                        <option value="Hindiston">Hindiston</option>
+                    </select>
+                </div>
+
+                <!-- 4. Yili -->
+                <div class="filter-item">
+                    <label for="filterYear">Chiqarilgan Yili:</label>
+                    <select id="filterYear">
+                        <option value="all">Barcha Yillar</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="old">2019 va undan oldingi</option>
+                    </select>
+                </div>
+
+                <!-- 5. Tili -->
+                <div class="filter-item">
+                    <label for="filterLanguage">Ovoz / Til:</label>
+                    <select id="filterLanguage">
+                        <option value="all">Barcha Tillar</option>
+                        <option value="O'zbekcha">O'zbekcha (Tarjima)</option>
+                        <option value="Ruscha">Ruscha</option>
+                        <option value="Inglizcha">Inglizcha (Original)</option>
+                        <option value="Subtitr">O'zbekcha Subtitr</option>
+                    </select>
+                </div>
+
+                <!-- 6. Reyting -->
+                <div class="filter-item">
+                    <label for="filterRating">IMDb Reytingi:</label>
+                    <select id="filterRating">
+                        <option value="all">Barcha Reytinglar</option>
+                        <option value="8.0">⭐ 8.0 va undan yuqori (Top)</option>
+                        <option value="7.0">⭐ 7.0 va undan yuqori</option>
+                        <option value="6.0">⭐ 6.0 va undan yuqori</option>
+                    </select>
+                </div>
+
+                <!-- 7. Saralash -->
+                <div class="filter-item">
+                    <label for="sortOrder">Saralash tartibi:</label>
+                    <select id="sortOrder">
+                        <option value="newest">Yangi qo'shilganlar</option>
+                        <option value="viewsDesc">Eng ko'p ko'rilganlar 👁️</option>
+                        <option value="ratingDesc">Eng yuqori reytingli ⭐</option>
+                        <option value="yearDesc">Eng yangi yillari 📅</option>
+                        <option value="titleAsc">Nomi bo'yicha (A-Z)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Natijalar Sarlavhasi -->
+        <div class="section-header">
+            <h2 class="section-title" id="sectionTitle">Kinolar Ro'yxati</h2>
+            <span class="video-count" id="videoCount">0 ta kino</span>
+        </div>
+
+        <!-- Kinolar Gridi -->
+        <div class="movie-grid" id="moviesContainer">
+            <!-- Kinolar JavaScript orqali shu yerga dinamik yuklanadi -->
+        </div>
+    </main>
+
+    <!-- KINO TOMOSHA QILISH MODAL OYNASI (CINEMA THEATER MODAL) -->
+    <div class="modal-overlay" id="watchModal" style="display: none;">
+        <div class="modal-dialog">
+            <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+
+            <!-- Video Player Ekrani (MP4 video yoki YouTube/Vimeo iframe) -->
+            <div class="player-container" id="playerContainer">
+                <video id="modalVideoPlayer" controls playsinline>
+                    Brauzeringiz ushbu videoni qo'llab-quvvatlamaydi.
+                </video>
+                <iframe id="modalIframePlayer" style="display: none;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <!-- Kino Ma'lumotlari -->
+            <div class="modal-movie-info">
+                <div class="modal-header-meta">
+                    <div class="modal-badges">
+                        <span class="rating-badge" id="modalRating">⭐ 8.5</span>
+                        <span class="quality-tag" id="modalQuality">4K UHD</span>
+                        <span class="lang-tag" id="modalLanguage">O'zbekcha</span>
+                        <span class="badge" id="modalGenre">Jangari</span>
+                        <span class="views-tag" id="modalViewsTag">👁️ 0 ko'rildi</span>
+                    </div>
+                    <div class="modal-action-btns">
+                        <button type="button" class="fav-toggle-btn" id="modalFavBtn">❤️ Sevimlilarga</button>
+                        <a href="#" download id="modalDownloadBtn" class="download-btn">📥 Yuklab Olish</a>
+                    </div>
+                </div>
+
+                <h2 class="modal-title" id="modalTitle">Kino Nomi</h2>
+
+                <div class="modal-quick-stats">
+                    <span>📅 Yili: <strong id="modalYear">2024</strong></span>
+                    <span>🌍 Davlati: <strong id="modalCountry">AQSH</strong></span>
+                    <span>⏱️ Davomiyligi: <strong id="modalDuration">120 daqiqa</strong></span>
+                    <span>🎭 Janr: <strong id="modalGenreFull">Jangari</strong></span>
+                    <span>👁️ Ko'rishlar: <strong id="modalViews">0</strong></span>
+                </div>
+
+                <div class="modal-description-box">
+                    <h4>Kino Haqida Qisqacha:</h4>
+                    <p id="modalDescription">Kino tavsifi...</p>
+                </div>
+
+                <!-- Izohlar va Baholash Bo'limi -->
+                <div class="modal-comments-section">
+                    <div class="comments-header">
+                        <h3>💬 Tomoshabinlar Fikrlari (<span id="movieCommentsCount">0</span>)</h3>
+                    </div>
+
+                    <!-- Yangi izoh qoldirish formasi -->
+                    <form id="addCommentForm" class="comment-input-box">
+                        <div class="comment-rating-select">
+                            <label for="commentRating">Kinoga bahoingiz:</label>
+                            <select id="commentRating">
+                                <option value="10">⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ 10 / 10 (A'lo)</option>
+                                <option value="9">⭐⭐⭐⭐⭐⭐⭐⭐⭐ 9 / 10</option>
+                                <option value="8" selected>⭐⭐⭐⭐⭐⭐⭐⭐ 8 / 10 (Yaxshi)</option>
+                                <option value="7">⭐⭐⭐⭐⭐⭐⭐ 7 / 10</option>
+                                <option value="6">⭐⭐⭐⭐⭐⭐ 6 / 10</option>
+                                <option value="5">⭐⭐⭐⭐⭐ 5 / 10</option>
+                            </select>
+                        </div>
+                        <div class="comment-textarea-wrap">
+                            <textarea id="commentText" rows="2" placeholder="Ushbu kino haqida o'z fikringizni qoldiring..." required></textarea>
+                            <button type="submit" class="submit-comment-btn" id="submitCommentBtn">Yuborish 🚀</button>
+                        </div>
+                    </form>
+
+                    <!-- Izohlar ro'yxati -->
+                    <div class="comments-list" id="movieCommentsList">
+                        <!-- Izohlar dinamik chiqadi -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bildirishnomalar uchun konteyner -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
