@@ -1,9 +1,11 @@
 <?php
+require_once __DIR__ . '/AuthRepository.php';
+
 class AuthController {
-    private $pdo;
+    private $repository;
 
     public function __construct($pdo) {
-        $this->pdo = $pdo;
+        $this->repository = new AuthRepository($pdo);
     }
 
     // Admin tizimga kirishi

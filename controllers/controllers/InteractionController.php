@@ -1,9 +1,11 @@
 <?php
+require_once __DIR__ . '/../InteractionRepository.php';
+
 class InteractionController {
-    private $pdo;
+    private $repository;
 
     public function __construct($pdo) {
-        $this->pdo = $pdo;
+        $this->repository = new InteractionRepository($pdo);
     }
 
     // Kinoning izohlarini olish

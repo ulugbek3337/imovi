@@ -17,53 +17,59 @@ $movieController = new MovieController($pdo);
 $authController = new AuthController($pdo);
 $interactionController = new InteractionController($pdo);
 
-// Marshrutlash (Routing)
-switch ($action) {
-    // === KINOLAR BO'LIMI ===
-    case 'add':
-        $movieController->addMovie();
-        break;
-    case 'edit':
-    case 'update':
-        $movieController->editMovie();
-        break;
-    case 'delete':
-        $movieController->deleteMovie();
-        break;
-    case 'view':
-        $movieController->incrementView();
-        break;
-        
-    // === AVTORIZATSIYA BO'LIMI ===
-    case 'login':
-        $authController->adminLogin();
-        break;
-    case 'user_login':
-        $authController->userLogin();
-        break;
-    case 'register':
-        $authController->userRegister();
-        break;
-    case 'user_me':
-        $authController->getUserProfile();
-        break;
+// RESTful API Routing
+$method = $_SERVER['REQUEST_METHOD'];
 
-    // === IZOHLAR VA TARIX BO'LIMI ===
-    case 'get_comments':
-        $interactionController->getComments();
-        break;
-    case 'add_comment':
-        $interactionController->addComment();
-        break;
-
-    // Standart holat (Barcha kinolarni olish)
-    default:
-        if ($method === 'GET' && empty($action)) {
-            $movieController->getAllMovies();
+switch ($method) {
+    case 'GET':
+        if ($action === 'get_comments') {
+            $interactionController->getComments();
+        } elseif ($action === 'get_history') {
+            $interactionController->getHistory();
+        } elseif ($action === 'user_me') {
+            $authController->getUserProfile();
         } else {
-            http_response_code(404);
-            echo json_encode(['success' => false, 'error' => "Bunday marshrut topilmadi!"]);
+            $movieController->getAllMovies();
         }
         break;
+
+    case 'POST':
+        switch ($action) {
+            case 'login':
+                $authController->adminLogin();
+                break;
+            case 'user_login':
+                $authController->userLogin();
+                break;
+            case 'register':
+                $authController->userRegister();
+                break;
+            case 'add_comment':
+                $interactionController->addComment();
+                break;
+            case 'add':
+                $movieController->addMovie();
+                break;
+        }
+        break;
+
+    case 'PUT':
+    case 'PATCH':
+        if ($action === 'update' || $action === 'edit') {
+            $movieController->editMovie();
+        }
+        break;
+
+    case 'DELETE':
+        if ($action === 'delete') {
+            $movieController->deleteMovie();
+        }
+        break;
+
+    default:
+        http_response_code(405);
+        echo json_encode(['success' => false, 'error' => "Metod ruxsat etilmagan!"]);
+        break;
 }
+
 ?>

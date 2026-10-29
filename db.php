@@ -35,8 +35,23 @@ function loadEnv($path) {
 }
 loadEnv(__DIR__ . '/.env');
 
+// Hozirgi foydalanuvchini aniqlash
+function getCurrentUser($pdo) {
+    if (isset($_SESSION['user_id'])) {
+        $stmt = $pdo->prepare("SELECT id, name, email, avatar_url, role FROM users WHERE id = :id");
+        $stmt->execute([':id' => $_SESSION['user_id']]);
+        return $stmt->fetch();
+    }
+    return null;
+}
+
 define('ADMIN_PASSWORD', 'admin123'); // Buni ham keyinchalik .env ga o'tkazish mumkin
 define('ADMIN_TOKEN_HASH', hash('sha256', $_ENV['ADMIN_SECRET_KEY'] ?? 'default_salt'));
+
+// Admin ekanligini tekshirish funksiyasi
+function checkAdminAuth() {
+    return isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
+}
 
 // 3. PostgreSQL yoki MySQL'ga ulanish
 $dbType = $_ENV['DB_CONNECTION'] ?? 'sqlite';
